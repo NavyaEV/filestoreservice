@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filestoreservice
+spec:
+  selector:
+    matchLabels:
+      run: filestoreservice
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: filestoreservice
+    spec:
+      containers:
+      - name: filestoreservice
+        image: filestoreservice:latest-5110
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5110
