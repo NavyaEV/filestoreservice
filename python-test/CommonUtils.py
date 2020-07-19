@@ -10,7 +10,7 @@ errorCodes = json.loads(f.read())
 class CommonUtils():
 
     def __init__(self):
-        self.uploadUrl = 'http://127.0.0.1:5110/v1/files/'
+        self.uploadUrl = 'http://127.0.0.1:5110/v1/files'
         self.downloadUrl = 'http://127.0.0.1:5110/v1/files/download'
 	self.baseDir = os.getcwd()        
         errorCodesFile = '%s/ErrorCodes.json'%self.baseDir

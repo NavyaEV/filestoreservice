@@ -10,14 +10,14 @@ class TestSetup(CommonUtils):
             print('Failed to get list of files from project directory')
             return False
 
-        cmd = 'cd %s/..; docker-compose up -d'
+        cmd = 'cd %s;echo \'y\'| docker-compose up -d'%baseDir
         status, stdout, stderr = self.execCommandLocal(cmd)
         print('stdout:\n------\n%s\nstderr:\n------\n%s\n'%(stdout, stderr))
         if status != 0:
             print('Failed to start container')
             return False
 
-        cmd = 'mkdir sample; echo \'Hello workd\' > sample/sample.txt; tar czf sample.tar sample/'
+        cmd = 'cd %s; mkdir sample; echo \'Hello workd\' > sample/sample.txt; tar czf sample.tar sample/'%baseDir
         status, stdout, stderr = self.execCommandLocal(cmd)
         print('stdout:\n------\n%s\nstderr:\n------\n%s\n'%(stdout, stderr))
         if status != 0:
