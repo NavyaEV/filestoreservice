@@ -1,0 +1,6 @@
+{
+"SuccessfulList": {"code":"200", "message":"OK"},
+"SuccessfulUpload": {"code": "201", "message":"Created"},
+"SuccessfulDownload": {"code": "200", "message":"OK"},
+"UploadExistingFile": {"code": "409", "message": "Conflict"}
+}
