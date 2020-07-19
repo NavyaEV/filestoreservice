@@ -41,19 +41,30 @@ class FileList(APIView):
             returnMessage['Message'] = 'File does not exist to delete or already deleted'
             return Response(returnMessage, status=status.HTTP_404_NOT_FOUND)
         file.delete()
-        return Response({'Message':'Successfully deleted'}, status=status.HTTP_204_NO_CONTENT)
+        returnMessage = {}
+        returnMessage['Message'] = 'Successfully deleted'
+        return Response(returnMessage, status=status.HTTP_204_NO_CONTENT)
 
 class FileDownload(generics.CreateAPIView):
     http_method_names = ['get']    
     def get(self, request, format=None):
-        fileAbsPath = '%s/%s/%s'%(settings.MEDIA_ROOT, settings.MEDIA_SUB_DIR_NAME, request.data['file'])
-        print(fileAbsPath)
-        if os.path.exists(fileAbsPath):
-            with open(fileAbsPath, 'rb') as f:
-                file_data = f.read()
-            response = HttpResponse(file_data, content_type='application/octet-stream')
-            response['Content-Disposition'] = 'attachment; filename="%s"'%request.data['file']
-            return response
-        returnMessage = {}
-        returnMessage['Message'] = 'File does not exist'
-        return Response(returnMessage, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            if 'file' not in request.data:
+                raise
+            fileAbsPath = '%s/%s/%s'%(settings.MEDIA_ROOT, settings.MEDIA_SUB_DIR_NAME, request.data['file'])
+            print(fileAbsPath)
+            if os.path.exists(fileAbsPath):
+                with open(fileAbsPath, 'rb') as f:
+                    file_data = f.read()
+                response = HttpResponse(file_data, content_type='application/octet-stream')
+                response['Content-Disposition'] = 'attachment; filename="%s"'%request.data['file']
+                return response
+            print('File does not exist')
+            returnMessage = {}
+            returnMessage['Message'] = 'File does not exist'
+            return Response(returnMessage, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            print('Requested data is incorect. Please check the usage of api and try again')
+            returnMessage = {}
+            returnMessage['Message'] = 'Invalid Request'
+            return Response(returnMessage, status=status.HTTP_400_BAD_REQUEST)
