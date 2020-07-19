@@ -2,7 +2,9 @@ version: '3'
 
 services:
   web:
+    image: filestoreservice:latest-5110
+    container_name: filestoreservice
+    restart: always
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
     ports:
-      - 8000:8000
+      - 5110:5110
